@@ -3,9 +3,25 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
+import userRoutes from "./routes/user.js";
+import { errorHandler } from "./middleware/errorMiddleware.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 dotenv.config();
+
+// MIDDLEWARE
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
+
+// ROUTES
+app.use("/users", userRoutes);
+
+// ERROR HANDLER
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 500;
 
